@@ -4,7 +4,7 @@
 from setuptools import setup
 
 setup(
-     name='pendulum',
-   version='0.1.10',
-    install_requires=['pydae'],
+     name='enviroments',
+   version='0.1.1',
+    install_requires=['pydae', 'gym', 'pygame'],
 )
