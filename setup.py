@@ -5,6 +5,6 @@ from setuptools import setup
 
 setup(
      name='enviroments',
-   version='0.1.1',
+   version='0.1.2',
     install_requires=['pydae', 'gym', 'pygame'],
 )
