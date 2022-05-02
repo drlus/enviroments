@@ -26,6 +26,7 @@ class PendulumDAEEnv(gym.Env):
         self.seed()
 
         self.dae = pendulum_dae.model()
+        self.dae.Dt = 0.01
         self.t = 0.0
         
     def seed(self, seed=None):
@@ -49,16 +50,19 @@ class PendulumDAEEnv(gym.Env):
         #newthdot = np.clip(newthdot, -self.max_speed, self.max_speed)
         #newth = th + newthdot * dt
         
-        self.dae.run(self.t,{'u':u,'M':self.m,'G':self.g})
+        self.dae.step(self.t,{'u':u,'M':self.m,'G':self.g})
      
         #self.state = np.array([newth, newthdot])\n",
         self.state = self.dae.get_mvalue(['theta','omega'])
+        self.u = u
 
         return self._get_obs(), -costs, False, {}
 
     def reset(self):
-        self.dae = pendulum_dae.model()
-
+        
+        self.u = np.array([0.0]).astype(np.float32)
+        
+        self.dae.ini({'u':self.u,'M':self.m,'G':self.g})
         high = np.array([np.pi, 1])
         self.state = self.np_random.uniform(low=-high, high=high)
         self.last_u = None
